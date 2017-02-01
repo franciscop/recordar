@@ -7,7 +7,11 @@ const defaults = {
   halflife: 3600,
 
   // The minimum that each try will bias the solution (min, 1)
-  minimum: 0.5
+  minimum: 0.5,
+
+  factor_forget: true,
+  factor_accuracy: true,
+  factor_random: true
 };
 
 // The main function. Accepts options and then a list of the actual tries
@@ -23,6 +27,7 @@ const recordar = (tries = [], options = {}) => new Promise((resolve, reject) => 
   recordar.options = Object.assign({}, recordar.options, options);
 
   Object.keys(recordar.factors).reduce((all, key) => {
+    if (!recordar.options['factor_' + key]) return all;
     return all.then(glo => recordar.factors[key](tries).then(local => {
       return glo * local * 2;
     }));
@@ -83,9 +88,9 @@ recordar.factors.accuracy = tries => new Promise((resolve, reject) => {
 // };
 
 // Make it slightly random
-// recordar.factors.random = function () {
-//   return 0.2 * Math.random() + 0.9;
-// };
+recordar.factors.random = () => new Promise((resolve, reject) => {
+  resolve(0.2 * Math.random() + 0.4);
+});
 
 
 

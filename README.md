@@ -30,7 +30,7 @@ Install it with npm as usual:
 npm install recordar --save
 ```
 
-Then just `require('recordar')` it.
+Then just `require('recordar')` it. It should work both on the back-end and on the browser.
 
 It is designed so you can plug it easily into your system. For instance, if you want to analyze from a flashcard list you could do:
 

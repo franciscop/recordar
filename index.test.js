@@ -34,7 +34,10 @@ describe('constructor', () => {
 
 describe('factors:forget', () => {
   it('is 0.5 for half-life', () => {
-    return recordar.factors.forget([good(3600)]).then(sol => expect(sol).toBe(0.5));
+    return recordar.factors.forget([good(3600)]).then(sol => {
+      expect(sol).toBeGreaterThan(0.4);
+      expect(sol).toBeLessThan(0.6);
+    });
   });
 });
 
@@ -47,6 +50,13 @@ describe('bound checking', () => {
 
 
 describe('comparing instances', () => {
+  beforeAll(() => {
+    recordar.options.factor_random = false;
+  });
+  afterAll(() => {
+    recordar.options.factor_random = true;
+  });
+
   it('older are forgotten more than recent', () => {
     let solutions = [recordar([good(100)]), recordar([good(10)])];
     return Promise.all(solutions).then(([older, recent]) => {
