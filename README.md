@@ -6,7 +6,7 @@ A spaced repetition algorithm to analyze several responses from the students and
 const recordar = require('recordar');
 const time = require('to-date');  // Helper for this demo; not needed otherwise
 
-// This should be from your database
+// This should come from your database or storage system
 const answers = [
   { type:  'bad', time: time(1).hour.ago },
   { type: 'good', time: time(50).minutes.ago },
