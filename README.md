@@ -41,7 +41,7 @@ const assignScore = word => recordar(word.answers).then(score => {
   return Object.assign({}, word, { score });
 });
 
-// "words" is your own variable of [{ ..., answers: [], }, { ..., answers: [] }]
+// "words" is your own variable of [{ ..., answers: [] }, { ..., answers: [] }]
 Promise.all(words.map(assignScore)).then(words => {
   // Here each word in words has its score set as word.score
 });
