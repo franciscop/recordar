@@ -1,0 +1,25 @@
+{
+  "name": "recordar",
+  "version": "1.0.0",
+  "description": "A score calculating algorithm based on spaced repetition",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/franciscop/recordar.git"
+  },
+  "keywords": [
+    "spaced",
+    "repetition",
+    "score",
+    "analyze"
+  ],
+  "author": "Francisco Presencia Fandos <public@francisco.io> (http://francisco.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/franciscop/recordar/issues"
+  },
+  "homepage": "https://github.com/franciscop/recordar#readme"
+}
