@@ -1,4 +1,4 @@
-# Recordar
+# Recordar ![](https://img.shields.io/badge/dependencies-0-brightgreen.svg)
 
 A spaced repetition algorithm to analyze several responses from the students and give an approximate score of how much they remember the concept. Example:
 
@@ -123,4 +123,4 @@ This is just the beginning; by doing this we are optimizing learning each item, 
 - For me there is a quick-review (swiping on the train) and an in-depth review (with paper and pen). This should be accounted somehow, but not sure if it can be done at this level or it should be done at the level above.
 - Machine learning! I'm pretty sure this is the perfect situation for machine learning. I have already few thousands evaluations from my own, but I'd love to be able to get them from other people.
 
-That's it, any question please open an issue or email me (find my email in [my website](http://francisco.io/)).
+That's it, any question please open an issue.
