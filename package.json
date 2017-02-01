@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/franciscop/recordar#readme",
   "devDependencies": {
-    "jest": "^18.1.0"
+    "jest": "^18.1.0",
+    "to-date": "^0.1.0"
   }
 }

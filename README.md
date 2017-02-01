@@ -4,15 +4,17 @@ A spaced repetition algorithm to analyze several responses from the students and
 
 ```js
 const recordar = require('recordar');
+const time = require('to-date');
+
 const answers = [
-  { type:  'bad', time: new Date('2017-01-31T01:45:10.686Z') },  // 1h ago
-  { type: 'good', time: new Date('2017-01-31T01:46:50.686Z') },  // 1h-100s ago
-  { type: 'good', time: new Date('2017-01-31T02:35:10.686Z') }   // 10min ago
+  { type:  'bad', time: time(1).hour.ago },
+  { type: 'good', time: time(50).minutes.ago },
+  { type: 'good', time: time(1).minute.ago }
 ];
 const options = {};
 
 recordar(answers, options).then(score => {
-  console.log(score);  // 0.600824682559511
+  console.log(score);  // 0.6014866641343918
 });
 ```
 

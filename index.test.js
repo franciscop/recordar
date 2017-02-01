@@ -1,19 +1,9 @@
 // let recordar = require('./index.js');
 const recordar = require('./index');
+const time = require('to-date');
 
-const timeago = time => {
-  if (typeof time === 'number') time = { seconds: time };
-  const diff = (time.seconds || 0) +
-    (time.minutes || 0) * 60 +
-    (time.hours || 0) * 3600 +
-    (time.days || 0) * 24 * 3600;
-  let d = new Date();
-  d.setTime((d.getTime() / 1000 - diff) * 1000);
-  return d;
-};
-
-const good = ago => ({ type: 'good', time: timeago(ago) });
-const bad = ago => ({ type: 'bad', time: timeago(ago) });
+const good = (ago = 10) => ({ type: 'good', time: time(ago).seconds.ago });
+const bad = (ago = 10) => ({ type: 'bad', time: time(ago).seconds.ago });
 
 describe('constructor', () => {
   it('can build with nothing', () => {
