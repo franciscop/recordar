@@ -88,117 +88,21 @@ describe('comparing instances', () => {
       expect(e).toBeGreaterThan(f);
     });
   });
-
-
-  // it('returns by failures', () => {
-  //   let set = [
-  //     point('set:0:a', [good(10)]),
-  //     point('set:0:b', [good(10)]),
-  //     point('set:0:c', [good(10)]),
-  //     point('set:0:d', [good(10)]),
-  //     point('set:0:e', [bad(10)])
-  //   ];
-  //   expect(recordar(set).word).toBe('e');
-  // });
-  //
-  // it('returns by time', () => {
-  //   let set = [
-  //     point('set:0:a', [good(10)]),
-  //     point('set:0:b', [good(10)]),
-  //     point('set:0:c', [good(10)]),
-  //     point('set:0:d', [good(10)]),
-  //     point('set:0:e', [good(10000)])
-  //   ];
-  //   expect(recordar(set).word).toBe('e');
-  // });
-  //
-  // it('half-life can be adjusted', () => {
-  //   let data = point('set:0:a', [good(10)]);
-  //   recordar.options.halflife = 3600;
-  //   let chance = recordar.factors.forget(point('', [ good({ hours: 1 }) ]));
-  //   expect(Math.round(chance * 100)).toBe(100);
-  //
-  //   recordar.options.halflife = 24 * 3600;
-  //   chance = recordar.factors.forget(point('', [ good(24 * 3600) ]));
-  //   expect(Math.round(chance * 100)).toBe(100);
-  //
-  //   recordar.options.halflife = 3600;
-  // });
-  //
-  // it('recent events are more relevant', () => {
-  //   let set = [
-  //     recordar.factors.accuracy(point('set:0:a', [bad(1)])),
-  //     recordar.factors.accuracy(point('set:0:a', [bad({ hours: 1 })])),
-  //     recordar.factors.accuracy(point('set:0:a', [bad({ hours: 12 })])),
-  //     recordar.factors.accuracy(point('set:0:a', [bad({ days: 1 })]))
-  //   ];
-  //
-  //   // Older events are closer to 1 (less relevant)
-  //   for (let i = 1; i < set.length; i++) {
-  //     closerToOne(set[i], set[i-1]);
-  //   }
-  //
-  //   set = [
-  //     recordar.factors.accuracy(point('set:0:a', [good(1)])),
-  //     recordar.factors.accuracy(point('set:0:a', [good({ hours: 1 })])),
-  //     recordar.factors.accuracy(point('set:0:a', [good({ hours: 12 })])),
-  //     recordar.factors.accuracy(point('set:0:a', [good({ days: 1 })]))
-  //   ];
-  //
-  //   for (let i = 1; i < set.length; i++) {
-  //     closerToOne(set[i], set[i-1]);
-  //   }
-  // });
-  //
-  // it('is more important arecent mistake than old success', () => {
-  //   let datapoint = point('set:0:a', [bad(10), good({ days: 1 })]);
-  //   let factor = recordar.factors.accuracy(datapoint);
-  //   expect(factor).toBeLessThan(1.5);
-  //   expect(1).toBeLessThan(factor);
-  // });
-  //
-  // it('is more important a recent success than an old mistake', () => {
-  //   let datapoint = point('set:0:a', [good(10), bad({ days: 1 })]);
-  //   let factor = recordar.factors.accuracy(datapoint);
-  //   expect(factor).toBeLessThan(1);
-  //   expect(0.5).toBeLessThan(factor);
-  // });
+});
 
 
 
-
-
-  // describe('some persona tests', () => {
-  //
-  //   it('recent good nullify really old bad', () => {
-  //     let chance = recordar([
-  //       point('set:0:a', [good(10), bad({ days: 1 })])
-  //     ]).chance;
-  //
-  //     // console.log(chance);
-  //     expect(chance < 0.2).toBe(true);
-  //   });
-  //
-  //   it('old enough and super old are the same', () => {
-  //     let chance = recordar([
-  //       point('set:0:a', [good({ days: 20 }), bad({ days: 20 })])
-  //     ]).chance;
-  //
-  //     let chanceb = recordar([
-  //       point('set:0:a', [good({ days: 100 }), bad({ days: 100 })])
-  //     ]).chance;
-  //
-  //     // console.log(Math.round(chance * 10), Math.round(chanceb * 10));
-  //     expect(Math.round(chance * 10)).toBe(Math.round(chanceb * 10));
-  //   });
-  //
-  //   it('many good nullify bad', () => {
-  //     let chance = recordar([
-  //       point('set:0:a', [good(10), good(10), good(10), good(10), bad(10)])
-  //     ]).chance;
-  //
-  //     // console.log(chance);
-  //     expect(chance < 0.5).toBe(true);
-  //   });
-  // });
+describe('Real life examples and bug fixes', () => {
+  it('score too low:sort inverted for accuracy', () => {
+    let data = [
+      {"type":"good", "time": new Date("2016-11-27T15:17:50.000Z")},
+      {"type":"good", "time": new Date("2016-12-15T07:17:35.000Z")},
+      {"type":"good", "time": new Date("2017-02-01T23:20:58.000Z")},
+      {"type":"good", "time": new Date("2017-02-01T23:21:01.000Z")},
+      {"type":"good", "time": new Date("2017-02-01T23:21:10.000Z")}
+    ];
+    recordar(data).then(score => {
+      expect(score).toBeGreaterThan(0.5);
+    });
+  });
 });

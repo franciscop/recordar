@@ -46,7 +46,7 @@ recordar.factors = {};
 recordar.factors.forget = tries => new Promise((resolve, reject) => {
   if (!tries.length) return resolve(0.5);
 
-  let last = tries.map(w => w.time).sort().shift();
+  let last = tries.map(w => w.time).sort().pop();
   if (!last) return resolve(0.5);
   // Wolfram Alpha: 1 - ln(x) / (2 * ln(3600)) from 0 to 10000
   // 0.5 ~= 1 - ln(x) / 2 * ln(const)
