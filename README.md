@@ -1,4 +1,4 @@
-# Recordar ![](https://img.shields.io/badge/dependencies-0-brightgreen.svg)
+# Recordar  [![CircleCI](https://circleci.com/gh/franciscop/recordar.svg?style=shield)](https://circleci.com/gh/franciscop/recordar) ![dependencies badge](https://img.shields.io/badge/dependencies-0-brightgreen.svg)
 
 A spaced repetition algorithm to analyze several responses from the students and give an approximate score of how much they remember the concept. Example:
 
