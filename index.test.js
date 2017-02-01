@@ -10,6 +10,10 @@ describe('constructor', () => {
     return recordar().then(score => expect(score).toBe(0.5));
   });
 
+  it('ignores a number for options', () => {
+    return recordar([], 1);
+  });
+
   it('can build with empty array', () => {
     return recordar([]).then(score => expect(score).toBe(0.5));
   });

@@ -6,12 +6,12 @@ A spaced repetition algorithm to analyze several responses from the students and
 const recordar = require('recordar');
 const time = require('to-date');
 
+// This should be from your database
 const answers = [
   { type:  'bad', time: time(1).hour.ago },
   { type: 'good', time: time(50).minutes.ago },
   { type: 'good', time: time(1).minute.ago }
 ];
-const options = {};
 
 recordar(answers, options).then(score => {
   console.log(score);  // 0.6014866641343918
