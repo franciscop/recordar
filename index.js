@@ -73,14 +73,17 @@ recordar.factors.accuracy = tries => new Promise((resolve, reject) => {
   if (!tries.length) return resolve(1);
 
   // Forget 50% in e ^ (-A * t)
-  let coeffs = {
-    hour: 0.0002,  // 1h
-    day: 0.000008  // 24h
-  };
+  //   f(t = halflife) = 0.5
+  //   A == coeff == ?
+  //   0.5 = e ^ (-coeff * halflife)
+  //   ln(0.5) = -coeff * halflife
+  //   0.69315 = coeff * halflife
+  //   coeff = 0.69315 / halflife
+  const coeff = recordar.options.halflife / 0.69315;
 
   let size = (all, one) => {
     let timediff = (new Date() - one.time) / 1000;
-    let remember = Math.pow(Math.E, (-coeffs.day * timediff));
+    let remember = Math.pow(Math.E, (-coeff * timediff));
     // Force each try to always influence even if it's just a bit
     remember = Math.max(remember, recordar.options.minimum);
     return all + remember;
