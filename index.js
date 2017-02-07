@@ -3,11 +3,16 @@ const bound = num => Math.min(Math.max(0, num), 1);
 
 const defaults = {
 
+  debug: false,
+
   // The half-life of each answer. Set higher for easier sets or fast learners
-  halflife: 3600,
+  halflife: 7 * 24 * 3600,
 
   // The minimum that each try will bias the solution (min, 1)
-  minimum: 0.5,
+  minimum: 0.3,
+
+  // The amount to ranzomize: 0.5 +- randomize
+  randomize: 0.1,
 
   factor_forget: true,
   factor_accuracy: true,
@@ -29,6 +34,9 @@ const recordar = (tries = [], options = {}) => new Promise((resolve, reject) => 
   Object.keys(recordar.factors).reduce((all, key) => {
     if (!recordar.options['factor_' + key]) return all;
     return all.then(glo => recordar.factors[key](tries).then(local => {
+      if (recordar.options.debug) {
+        console.log("Word:", options.word, "For:", key, local);
+      }
       return glo * local * 2;
     }));
   }, Promise.resolve(0.5)).then(sol => resolve(bound(sol)));
@@ -46,12 +54,16 @@ recordar.factors = {};
 recordar.factors.forget = tries => new Promise((resolve, reject) => {
   if (!tries.length) return resolve(0.5);
 
-  let last = tries.map(w => w.time).sort().pop();
+  let sorted = tries.map(w => w.time).map(time => new Date(time)).sort();
+  let last = sorted.pop();
   if (!last) return resolve(0.5);
   // Wolfram Alpha: 1 - ln(x) / (2 * ln(3600)) from 0 to 10000
   // 0.5 ~= 1 - ln(x) / 2 * ln(const)
   let selffactor = 2 * Math.log(recordar.options.halflife);
   let solution = 1 - Math.log((new Date() - last) / 1000) / selffactor;
+  if (recordar.options.debug) {
+    console.log('Forget:', solution, sorted, last);
+  }
   resolve(bound(solution));
 });
 
@@ -77,6 +89,9 @@ recordar.factors.accuracy = tries => new Promise((resolve, reject) => {
   var good = tries.filter(n => n.type === 'good').reduce(size, 1);
   var bad = tries.filter(n => n.type === 'bad').reduce(size, 1);
   var total = 0.5 + 0.5 * (good - bad) / (good + bad);
+  if (recordar.options.debug) {
+    console.log("Accuracy", total, good, bad);
+  }
   resolve(bound(total));
 });
 
@@ -89,7 +104,9 @@ recordar.factors.accuracy = tries => new Promise((resolve, reject) => {
 
 // Make it slightly random
 recordar.factors.random = () => new Promise((resolve, reject) => {
-  resolve(0.2 * Math.random() + 0.4);
+  let factor = recordar.options.randomize;
+  // From (0.5 - factor) +- factor
+  resolve(0.5 - factor + 2 * factor * Math.random());
 });
 
 

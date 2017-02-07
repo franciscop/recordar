@@ -34,7 +34,7 @@ describe('constructor', () => {
 
 describe('factors:forget', () => {
   it('is 0.5 for half-life', () => {
-    return recordar.factors.forget([good(3600)]).then(sol => {
+    return recordar.factors.forget([good(7 * 24 * 3600)]).then(sol => {
       expect(sol).toBeGreaterThan(0.4);
       expect(sol).toBeLessThan(0.6);
     });
@@ -44,7 +44,31 @@ describe('factors:forget', () => {
 
 describe('bound checking', () => {
   it('never goes below 0', () => {
-    return recordar([good(1000000000)]).then(min => expect(min).toBe(0));
+    // This is the impossible case:
+    const realbad = bad(1000 * 24 * 3600);
+    return recordar([
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad,
+      realbad, realbad, realbad, realbad, realbad, realbad, realbad, realbad
+    ]).then(min => {
+      expect(min).toBeGreaterThan(0);
+      expect(min).toBeLessThan(0.1)
+    });
   });
 });
 
@@ -58,7 +82,7 @@ describe('comparing instances', () => {
   });
 
   it('older are forgotten more than recent', () => {
-    let solutions = [recordar([good(100)]), recordar([good(10)])];
+    let solutions = [recordar([good(3600)]), recordar([good(10)])];
     return Promise.all(solutions).then(([older, recent]) => {
       expect(older).toBeLessThan(recent);
     });
